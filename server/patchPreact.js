@@ -1,0 +1,9 @@
+var React = require('react')
+var ReactDOM = require('react-dom')
+var ReactDOMServer = require('react-dom/server')
+var CreateReactClass = require('create-react-class')
+var Preact = require('preact-compat/dist/preact-compat.min')
+var Module = module.constructor
+Module._cache[require.resolve('react')].exports = Preact
+Module._cache[require.resolve('react-dom')].exports = Preact
+Module._cache[require.resolve('create-react-class')].exports.default = Preact.createClass
