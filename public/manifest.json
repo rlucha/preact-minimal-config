@@ -1,0 +1,7 @@
+{
+  "name": "localhost",
+  "short_name": "localhost",
+  "lang": "en-GB",
+  "start_url": "/",
+  "display": "standalone"
+}
