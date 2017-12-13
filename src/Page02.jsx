@@ -1,10 +1,11 @@
 import { h, render, Component } from 'preact';
+require('preact/debug');
 
-class Page extends Component {
+class Page02 extends Component {
     render(props) {
         console.log(props.myprop)
         return <span onClick={() => console.log("hey")}>Hey {props.myprop}</span>;
     }
 }
 
-export default Page
+export default Page02

@@ -8,6 +8,8 @@ const path = require('path');
 const Koa = require('koa');
 const koaStatic = require('koa-static')
 const Router = require('koa-router');
+var compress = require('koa-compress')
+
 
 const app = new Koa();
 const router = new Router();
@@ -15,6 +17,15 @@ const router = new Router();
 const viewpath = path.join(__dirname, '../src');
 
 app.use(koaStatic('./public/'));
+
+app.use(compress({
+  filter: content_type => {
+    console.log(content_type)
+  	return /text/i.test(content_type)
+  },
+  threshold: 2048,
+  flush: require('zlib').Z_SYNC_FLUSH
+}))
 
 // Register live babel transpiling
 register({
@@ -24,7 +35,10 @@ register({
   only: /src/
 });
 
-var Page = require('../src/Page.jsx').default
+// Import all the pages automatically and create the routes
+// import the common chunk also from here
+var Page01 = require('../src/Page01.jsx').default
+var Page02 = require('../src/Page02.jsx').default
 
 // on a particular route, we have to build it and provide some diffing
 // add preact everywhere on the commons bundle...
@@ -32,10 +46,11 @@ var Page = require('../src/Page.jsx').default
 // Things to consider in the build:
 // Navigate all the pages entry points and build the SSR version
 // Create all the JS entry points and create the bundles per entry point
-// 
+// maybe create ustyle critical css https://github.com/addyosmani/critical
+// https://github.com/nrwl/webpack-plugin-critical
 
-router.get('/', function (ctx, next) {
-  let content = render(<Page myprop={"Hello world"} />);
+router.get('/page01', function (ctx, next) {
+  let content = render(<Page01 myprop={"Hello world in page 01"} />);
   ctx.body = `<!DOCTYPE html><html>
   <head>
     
@@ -44,12 +59,27 @@ router.get('/', function (ctx, next) {
     <div id="app">
       ${content}
     </div>
-
-    <script src="./page.js"></script>
+    <script src="./commons.js"></script>
+    <script src="./page01.js"></script>
   </body>
   </html>`;
 });
 
+router.get('/page02', function (ctx, next) {
+  let content = render(<Page02 myprop={"Hello world in page 02"} />);
+  ctx.body = `<!DOCTYPE html><html>
+  <head>
+    
+  <head/>
+  <body>
+    <div id="app">
+      ${content}
+    </div>
+    <script src="./commons.js"></script>
+    <script src="./page02.js"></script>
+  </body>
+  </html>`;
+});
 
 app
 .use(router.routes())

@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx babel server/server.js --presets=es2015,react --out-file server/server-es5.js && node server/server-es5.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "babel-register": "^6.26.0",
+    "compression-webpack-plugin": "^1.0.1",
+    "koa-compress": "^2.0.0",
     "koa-react-view": "^3.0.0",
     "koa-router": "^7.3.0",
     "koa-static": "^4.0.2",
