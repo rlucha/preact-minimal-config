@@ -54,7 +54,8 @@ var Page02 = require("../src/Page02.jsx").default;
 // https://github.com/nrwl/webpack-plugin-critical
 
 router.get("/page01", function(ctx, next) {
-  let content = render(<Page01 myprop={"Hello world in page 01"} />);
+  const preloadedState = {msg: "Message coming from preloaded stuff"};
+  let content = render(<Page01 {...preloadedState} />);
   ctx.body = `<!DOCTYPE html><html>
   <head>
     <link rel="manifest" href="manifest.json">
@@ -70,6 +71,9 @@ router.get("/page01", function(ctx, next) {
       ${content}
     </div>
     <script src="./commons.js"></script>
+    <script>
+    window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\x3c')}
+    </script>    
     <script src="./page01.js"></script>
   </body>
   </html>`;

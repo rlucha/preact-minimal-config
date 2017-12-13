@@ -1,5 +1,4 @@
 import { h, render, Component } from 'preact';
-require('preact/debug');
 
 class Page02 extends Component {
     render(props) {
