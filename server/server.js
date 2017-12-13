@@ -57,7 +57,13 @@ router.get("/page01", function(ctx, next) {
   let content = render(<Page01 myprop={"Hello world in page 01"} />);
   ctx.body = `<!DOCTYPE html><html>
   <head>
-    
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="localhost">
+    <meta name="apple-mobile-web-app-title" content="localhost">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    
   <head/>
   <body>
     <div id="app">
@@ -73,7 +79,13 @@ router.get("/page02", function(ctx, next) {
   let content = render(<Page02 myprop={"Hello world in page 02"} />);
   ctx.body = `<!DOCTYPE html><html>
   <head>
-    
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="localhost">
+    <meta name="apple-mobile-web-app-title" content="localhost">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    
   <head/>
   <body>
     <div id="app">
