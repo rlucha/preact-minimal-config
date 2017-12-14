@@ -1,6 +1,7 @@
 // Get that preact import outside with commonchunks
 // Generate this entry points on the fly via a function passed to webpack on require...
-
+import { Provider, connect } from "preact-redux";
+import { createStore } from "redux";
 import { render, h } from 'preact';
 import Page02 from './Page02';
 
