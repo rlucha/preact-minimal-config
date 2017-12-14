@@ -3,6 +3,9 @@ import render from "preact-render-to-string";
 import { h } from "preact";
 /** @jsx h */
 
+
+import fetch from 'node-fetch';
+
 const http2 = require("http2");
 const fs = require("fs");
 
@@ -54,9 +57,17 @@ var Page02 = require("../src/Page02.jsx").default;
 // maybe create ustyle critical css https://github.com/addyosmani/critical
 // https://github.com/nrwl/webpack-plugin-critical
 
-router.get("/page01", function(ctx, next) {
-  const preloadedState = {msg: "Message coming from preloaded stuff"};
+// Create all this routes dinamically from the site.json file
+// Create a component that wraps all of them
+
+router.get("/page01", async function(ctx, next) {
+  // test this page fetching resolution, maybe create a minimal resolution entry point like in nextjs
+  const preloadedState = 
+    await fetch("http://broadband-api.uswitchinternal.com/providers_all")
+    .then(res => res.json())
+
   // TODO use the provider and store here
+  // How to disable SSR?
   let content = render(<Page01 {...preloadedState} />);
   ctx.body = `<!DOCTYPE html><html>
   <head>

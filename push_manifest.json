@@ -1,0 +1,4 @@
+{
+	"https://localhost:5000/commons.js": {"type": "script"},
+	"https://localhost:5000/page01.js": {"type": "script"}
+}

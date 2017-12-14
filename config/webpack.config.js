@@ -4,12 +4,21 @@ const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 
+// webpack entry builder
+// Replace this with ramda
+const siteConfig = require("./site.json")
+let entries = {} 
+for (k in siteConfig) {
+  entries[k] = siteConfig[k]["ssr-entry"]
+}
+
 module.exports = {
   // automate the entry points with some path discovery?
-  entry: {
-    page01: "./src/page01-entry.js",
-    page02: "./src/page02-entry.js"
-  },
+  // entry: {
+  //   page01: "./src/page01-entry.js",
+  //   page02: "./src/page02-entry.js"
+  // },
+  entry: entries,
   output: {
     filename: "./public/[name].js"
   },

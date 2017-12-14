@@ -1,0 +1,12 @@
+{
+	"page01" : {
+		"route": "page01",
+		"component": "./src/Page01.jsx",
+		"ssr-entry": "./src/page01-entry.js"
+	},
+	"page02" : {
+		"route": "page02",
+		"component": "./src/Page02.jsx",
+		"ssr-entry": "./src/page02-entry.js"
+	}
+}
