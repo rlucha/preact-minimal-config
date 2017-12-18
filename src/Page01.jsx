@@ -1,9 +1,19 @@
 import { h, render, Component } from 'preact';
 
+// redux connect, this should live in the component
+export const mapStateToProps = (state, ownProps) => ({
+    deals: state.deals
+});
+
 class Page01 extends Component {
-    render(props) {
-        console.log("props here", props)
-        return <span onClick={() => console.log("hey")}>Hey {props.providers}</span>;
+    render({deals}) {
+        console.log("props here", deals)
+        return (
+            <div>
+                <h1>Providers</h1>
+                {deals.map(p => <div onClick={() => console.log(p.title)}>{p.title}</div>)}
+                </div>
+        )
     }
 }
 

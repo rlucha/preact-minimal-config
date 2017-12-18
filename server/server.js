@@ -3,19 +3,17 @@ import render from "preact-render-to-string";
 import { h } from "preact";
 /** @jsx h */
 
+import fetch from "node-fetch";
+import http2 from "http2";
+import fs from "fs";
 
-import fetch from 'node-fetch';
-
-const http2 = require("http2");
-const fs = require("fs");
-
-const register = require("babel-register");
-const path = require("path");
-const Koa = require("koa");
-const koaStatic = require("koa-static");
-const Router = require("koa-router");
-const compress = require("koa-compress");
-const serverpush = require('koa-server-push'); 
+import register from "babel-register";
+import path from "path";
+import Koa from "koa";
+import koaStatic from "koa-static";
+import Router from "koa-router";
+import compress from "koa-compress";
+import serverpush from "koa-server-push";
 
 const app = new Koa();
 const router = new Router();
@@ -62,12 +60,13 @@ var Page02 = require("../src/Page02.jsx").default;
 
 router.get("/page01", async function(ctx, next) {
   // test this page fetching resolution, maybe create a minimal resolution entry point like in nextjs
-  const preloadedState = 
-    await fetch("http://broadband-api.uswitchinternal.com/providers_all")
-    .then(res => res.json())
+  // change this for the USDA thing?
+  const preloadedState = await fetch(
+    "https://assets0.uswitch.com/s3/broadband-deals/tables/january_sales.json"
+  ).then(res => res.json());
 
   // TODO use the provider and store here
-  // How to disable SSR?
+  // How to disable SSR? pass an ENV flag?
   let content = render(<Page01 {...preloadedState} />);
   ctx.body = `<!DOCTYPE html><html>
   <head>
@@ -84,7 +83,10 @@ router.get("/page01", async function(ctx, next) {
       ${content}
     </div>
     <script>
-    window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\x3c')}
+    window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
+      /</g,
+      "\\x3c"
+    )}
     </script>    
     <script src="./commons.js"></script>
     <script src="./page01.js"></script>
@@ -119,15 +121,13 @@ app.use(router.routes()).use(router.allowedMethods());
 // app.listen(5000);
 
 const options = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem')
+  key: fs.readFileSync("key.pem"),
+  cert: fs.readFileSync("cert.pem")
 };
 
 // TODO get react into the client too!
 // const client = http2.connect("http://localhost");
 // can we push redux state with http2 ???
-
-
 
 http2.createSecureServer(options, app.callback()).listen(5000);
 console.log("Listening 5000");
